@@ -24,8 +24,14 @@ RUN apt-get install -y oracle-java8-set-default
 # their own JAVA_HOME
 RUN ln -s /usr/lib/jvm/java-8-oracle /usr/lib/jvm/default-java
 
-# Gradle installation
-RUN apt-get install -y gradle
+# SDKMan installation
+RUN apt-get install -y curl zip
+
+RUN curl -s "https://get.sdkman.io" | bash
+RUN rm /bin/sh && ln -s /bin/bash /bin/sh
+RUN source "$HOME/.sdkman/bin/sdkman-init.sh" && \
+    sdk install gradle 2.14.1 && \
+    sdk install maven
 
 # MySQL 5.5 installation
 # Install MySQL Server in a Non-Interactive mode. Default root password will be 'root'
